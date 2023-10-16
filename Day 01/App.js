@@ -65,32 +65,43 @@ const server = http.createServer((req, resp) => {
 server.listen(3000);
  */
 
-const http = require("http");
-const express = require("express");
-const bodyParser = require('body-parser')
+const http = require('http');
+const express = require('express');
+const bodyParser = require('body-parser');
+const { encode } = require('punycode');
+
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.get('/new-customer-form', (req, res, next) => {
-    res.send(`<html lang="en">
-<head>                
-<title>Customer Form</title>
-</head>
-<body>
-<form action="/save-customer" method="POST">
-<input type="text" name="nic" placeholder="Nic"/> &nbsp
-<input type="text" name="name" placeholder="Name"/> &nbsp           
-<input type="text" name="address" placeholder="Address"/> &nbsp                    
-<input type="number" name="salary" placeholder="Salary"/> &nbsp                  
-<input type="submit" value="Save Customer"/>     
-</form>
-</body>        
-</html>    
-`)
+app.use(bodyParser.urlencoded({extended:false}));
+
+app.get('/new-customer-form',(req,res,next)=>{
+    res.send(`
+        <html lang="en">
+            <head>
+                <title>Customer Form</title>
+            </head>
+            <body>
+                <form action="/save-customer" method="POST">
+                    <input type="text" name="nic" placeholder="Nic"/> &nbsp 
+                    <input type="text" name="name" placeholder="Name"/> &nbsp 
+                    <input type="text" name="address" placeholder="Address"/> &nbsp 
+                    <input type="number" name="salary" placeholder="Salary"/> &nbsp 
+                    <input type="submit" value="Save Customer"/>
+                </form>
+            </body>
+        </html>
+    `)
 });
-app.post('/save-customer', (req, res, next) => {
-    console.log('this is the customer block!');
-    console.log(req.body)
+
+app.post('/save-customer',(req,res,next)=>{
+    console.log(req.body);
+    console.log('Customer Saved!');
+    res.redirect('/');
 });
+
+app.use('/',(req,res,next)=>{
+    res.send('<h1>Customer Saved...</h1>');
+});
+
 const server = http.createServer(app);
 server.listen(3000);
