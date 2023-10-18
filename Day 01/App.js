@@ -99,8 +99,12 @@ app.post('/save-customer',(req,res,next)=>{
     res.redirect('/');
 });
 
-app.use('/',(req,res,next)=>{
+app.get('/',(req,res,next)=>{
     res.send('<h1>Customer Saved...</h1>');
+});
+
+app.use((req,res,next)=>{
+    res.status(404).send('<h1>Page Not Found!</h1>');
 });
 
 const server = http.createServer(app);
