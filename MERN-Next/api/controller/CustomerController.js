@@ -80,8 +80,28 @@ const updateCustomer = async (req, resp) => {
   });
 };
 
-const deleteCustomer = (req, resp) => {};
-const findAllCustomers = (req, resp) => {};
+const deleteCustomer = (req, resp) => {
+  const nic = req.params.nic;
+  const deleteQuery = "DELETE FROM customer WHERE nic=?";
+  db.query(deleteQuery, [nic], (err, result) => {
+    if (err) {
+      console.log(err);
+      return resp.status(500).json({ error: "something went wrong" });
+    }
+    return resp.status(204).json({ message: "customer was deleted!" });
+  });
+};
+
+const findAllCustomers = (req, resp) => {
+  const findQuery = "SELECT * FROM customer"; // pagination => offest
+  db.query(findQuery, (err, result) => {
+    if (err) {
+      console.log(err);
+      return resp.status(500).json({ error: "something went wrong" });
+    }
+    return resp.status(200).json({ data: result });
+  });
+};
 module.exports = {
   createCustomer,
   findCustomer,

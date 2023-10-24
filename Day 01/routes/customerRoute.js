@@ -5,7 +5,7 @@ const customerController = require('../controller/CustomerController');
 
 
 router.get('/new-customer-form',(req,res,next)=>{
-    res.sendFile(path.join(__dirname,'../','views','new-customer-form.html'));
+    res.sendFile(path.join(__dirna\me,'../','views','new-customer-form.html'));
 });
 
 
