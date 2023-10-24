@@ -56,5 +56,19 @@ const updateCustomer = (req, resp) => {
       resp.status(500).json(error);
     });
 };
-const deleteCustomer = (req, resp) => {};
+const deleteCustomer = (req, resp) => {
+    Customer.deleteOne({ nic: req.headers.nic })
+    .then((result) => {
+      if (result.deletedCount>0) {
+        resp
+          .status(204)
+          .json({ status: true, message: "customer was deleted!" });
+      } else {
+        resp.status(400).json({ status: false,message: "try again!" });
+      }
+    })
+    .catch((error) => {
+      resp.status(500).json(error);
+    });
+};
 const findAllCustomer = (req, resp) => {};
