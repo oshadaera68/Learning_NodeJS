@@ -1,5 +1,6 @@
 const UserSchema = require("../model/UserSchema");
 const bcrypt = require("bcrypt");
+const jsonWebToken = require("jsonwebtoken");
 
 const signup = async (req, resp) => {
   UserSchema.findOne({ username: req.body.username })
@@ -32,7 +33,44 @@ const signup = async (req, resp) => {
     });
 };
 
-const login = async (req, resp) => {};
+const login = async (req, resp) => {
+  UserSchema.findOne({ username: req.body.username })
+    .then((selectedUser) => {
+      if (selectedUser == null) {
+        return resp.status(404).json({ message: "username not found!" });
+      } else {
+        bcrypt.compare(
+          req.body.password,
+          selectedUser.password,
+          function (err, result) {
+            if (err) {
+              return resp.status(500).json(err);
+            }
+
+            if (result) {
+              const expiresIn = 3600;
+              const token = jsonWebToken.sign(
+                { username: selectedUser.username },
+                process.env.SECRET_KEY,
+                { expiresIn }
+              );
+
+              resp.setHeader("Authorization", `Bearer ${token}`);
+
+              return resp.status(200).json({ message: "check the headers" });
+            } else {
+              return resp
+                .status(401)
+                .json({ message: "password is incorrect!" });
+            }
+          }
+        );
+      }
+    })
+    .catch((error) => {
+      resp.status(500).json(error);
+    });
+};
 
 module.exports = {
   signup,
