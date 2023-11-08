@@ -10,3 +10,8 @@ CREATE TABLE IF NOT EXISTS customer(
 );
 SHOW TABLES;
 DESC customer;
+INSERT INTO customer VALUES('95','Kamal','Colombo',25000),
+('985','Jagath','Kalutara',80000),
+('785','Wasantha','Panadura',45000);
+
+SELECT * FROM customer;

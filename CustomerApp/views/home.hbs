@@ -1,14 +1,30 @@
-<table>
-  <tbody>
-    <tr>
-      <td>9564554</td>
-      <td>Kamal</td>
-      <td>Colombo</td>
-      <td>25000</td>
-      <td><a href="#" class="btn btn-primary">Show Data</a>&nbsp;
-        <a href="#" class="btn btn-danger">Delete</a>&nbsp;
-        <a href="#" class="btn btn-warning">Update</a>
-      </td>
-    </tr>
-  </tbody>
+<hr>
+
+<table class="table-bordered table table-hover">
+    <thead>
+        <tr>
+            <th>Nic</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Salary</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each rows}}
+        <tr>
+            <td>{{this.nic}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.salary}}</td>
+            <td>
+                <a href="#" class="btn btn-primary">Show Data</a>&nbsp;
+                <a href="#" class="btn btn-danger">Delete</a>&nbsp;
+                <a href="#" class="btn btn-warning">Update</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
 </table>
+
+<hr>
